@@ -2,31 +2,80 @@ body
 {
 	background-color: #9edb09;
 }
+
 *
 {
 	padding: 0;
 	margin: 0;
+	border: 0;
 	font-family: Verdana, sans;
 }
+
 h1
 {
 	font-size: 20px;
 }
 
+#hoofdpagina
+{
+	min-width: 900px;
+}
+
 #hoofdpagina *
 {
 	color: white;
-	text-align: center;
+}
+
+#hoofdpagina h1
+{
+  width: 800px;
+	margin: 0 auto 0 auto;
+  position: relative;
+  top: 40px;
+}
+#hoofdpagina ul#hoofdmenu
+{
+	margin: 0 auto 0 auto;
+	width: 792px;
+	height: 364px;
+	list-style-type: none;
+	background-color: blue;
+	position: relative;
+	top: 100px;
+}
+
+#hoofdpagina ul#hoofdmenu li
+{
+	float: left;
+	margin: 6px;
+	background-color: red;
+}
+
+#hoofdpagina ul#hoofdmenu li a
+{
+	text-align: left;
+	display: block;
+	width: 120px;
+	height: 170px;
+	text-decoration: none;
 }
 
 #hoofdpagina ul.adres
 {
 	list-style-type: none;
+  width: 800px;
+  margin: 0 auto 0 auto;
+  clear: left;
+  position: relative;
+  top: 150px;
 }
 
 #hoofdpagina ul.adres li
 {
+  float: left;
 	display: inline;
+  margin-left: -1px;
+  font-size: 12px;
 	border-style: solid;
 	border-width: 0 1px 0 1px;
 	padding: 15px;
