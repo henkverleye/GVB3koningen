@@ -1,4 +1,6 @@
 <?php
+try
+{
 session_start();
 
 require_once("HTMLDocument.php");
@@ -84,10 +86,10 @@ $doc = new HTMLDocument();
 {
   $head = $doc->GetHead();
   {
-    $head->AddTag("meta", array("http-equiv" => "content-type", content => "text/html;charset=utf-8"));
-    $head->AddTag("meta", array(name => "keywords", content => "GVB, gesubsidieerde, vrije, basisschool, driekoningen, torhout, steenveldstraat, rudy, vandeputte"));
+    $head->AddTag("meta", array("http-equiv" => "content-type", "content" => "text/html;charset=utf-8"));
+    $head->AddTag("meta", array("name" => "keywords", "content" => "GVB, gesubsidieerde, vrije, basisschool, driekoningen, torhout, steenveldstraat, rudy, vandeputte"));
     $head->AddTag("title", array(), "Maandmenu: {$maanden[$thismaand]} $thisjaar");
-    $head->AddTag("link", array(rel => "stylesheet", type => "text/css", href => "style/screen.css", media => "screen"));
+    $head->AddTag("link", array("rel" => "stylesheet", "type" => "text/css", "href" => "style/screen.css", "media" => "screen"));
 
     $d = new DOMDocument();
     $ieLink = $d->createElement("link");
@@ -97,28 +99,30 @@ $doc = new HTMLDocument();
     $ieLink->setAttribute("media", "screen");
     $head->AddComment("[if IE]>" . $d->saveXML($ieLink) . "<![endif]");
 
-    $head->AddTag("script", array(type => "text/javascript", src => "../scripts/tellerroot.js"));
-    $head->AddTag("script", array(type => "text/javascript", src => "../scripts/teller.js"));
+    $head->AddTag("script", array("type" => "text/javascript", "src" => "../scripts/tellerroot.js"));
+    $head->AddTag("script", array("type" => "text/javascript", "src" => "../scripts/teller.js"));
+
+    $head->AddTag("script", array("type" => "text/javascript"), "document.write(unescape(\"%3Cscript src='\" + ((\"https:\" == document.location.protocol) ? \"https\" : \"http\") + \"://e.mouseflow.com/projects/8e33fe49-7314-48b5-b93a-6159aebddb3b.js' type='text/javascript'%3E%3C/script%3E\"));");
   }
 
   $body = $doc->GetBody();
   $body->SetAttribute("class", "subpagina");
   {
-    $container = $body->AddTag("div", array(id => "container"));
+    $container = $body->AddTag("div", array("id" => "container"));
     {
-      $container->AddTag("div", array(id => "header"));
+      $container->AddTag("div", array("id" => "header"));
 
-      $nav = $container->AddTag("div", array(id => "navigation"));
+      $nav = $container->AddTag("div", array("id" => "navigation"));
       {
         $nav->AddTag("p", array("class" => "maandmenu"), "Maandmenu");
-        $nav->AddTag("ul")->AddTag("li")->AddTag("a", array(href => "index.html"), "terug naar de homepagina");
+        $nav->AddTag("ul")->AddTag("li")->AddTag("a", array("href" => "index.html"), "terug naar de homepagina");
       }
 
-      $content = $container->AddTag("div", array(id => "content"));
+      $content = $container->AddTag("div", array("id" => "content"));
       {
         $content->AddTag("h1", array(), "{$maanden[$thismaand]} $thisjaar");
 
-        $table = $content->AddTag("table", array(id => "maandmenu", summary => "maandmenu"));
+        $table = $content->AddTag("table", array("id" => "maandmenu", "summary" => "maandmenu"));
         {
           $tr = $table->AddTag("thead")->AddTag("tr");
           $tr->AddTag("td")->AddTag("h3", array(), "maandag");
@@ -156,6 +160,7 @@ $doc = new HTMLDocument();
                 }
                 $datum = sprintf("%04d-%02d-%02d", $dagdate["year"], $dagdate["mon"], $dagdate["mday"]);
                 $menu = isset($menus[$datum]) ? $menus[$datum] : "";
+                $menu = "<span>$menu</span>";
 
                 $td = $tr->AddTag("td");
                 {
@@ -170,7 +175,7 @@ $doc = new HTMLDocument();
         }
       }
 
-      $footer = $container->AddTag("div", array(id => "footer"));
+      $footer = $container->AddTag("div", array("id" => "footer"));
       {
         $ul = $footer->AddTag("ul", array("class" => "adres"));
         $ul->AddTag("li", array(), "Basisschool Driekoningen");
@@ -178,15 +183,28 @@ $doc = new HTMLDocument();
         $ul->AddTag("li", array(), "8820 Torhout");
         $ul->AddTag("li", array(), "Tel. (050) 22 36 59");
         $ul->AddTag("li", array(), "Fax (050) 21 61 25");
-        $ul->AddTag("li")->AddTag("a", array(href=> "mailto:basisschool.driekoningen@sint-rembert.be"), "basisschool.driekoningen@sint-rembert.be");
+        $ul->AddTag("li")->AddTag("a", array("href" => "mailto:basisschool.driekoningen@sint-rembert.be"), "basisschool.driekoningen@sint-rembert.be");
 
         $footer->AddTag("p", array(), "Scholengroep Sint-Rembert");
       }
 
-      $container->AddTag("script", array(type => "text/javascript"), "ToonTeller(\"schoolmenu\", 3485);");
+      $container->AddTag("script", array("type" => "text/javascript"), "ToonTeller(\"schoolmenu\", 3485);");
     }
   }
 }
 
 echo $doc->Serialize(true);
+}
+catch (ErrorException $e)
+{
+  if (array_key_exists("debug", $_GET))
+  {
+    print "<pre>" . $e->GetMessage() . "</pre>";
+    print "<pre>" . $e->getTraceAsString() . "</pre>";
+  }
+  else
+  {
+    print("<h1>Fout in pagina.</h1><h2>Gelieve de school te waarschuwen</h2>");
+  }
+}
 ?>
