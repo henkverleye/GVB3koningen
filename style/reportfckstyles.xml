@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+  <Styles >
+  <Style name="Hoofding 1" element="h1"/>
+  <Style name="Hoofding 2" element="h2" />
+  <Style name="Hoofding 3" element="h3" />
+</Styles>
