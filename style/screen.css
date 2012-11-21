@@ -1,7 +1,7 @@
 body
 {
 	background-color: #c4bd91;
-  background-image: url(images/achtergrond.jpg);
+	background-image: url(images/achtergrond.jpg);
 }
 
 *
@@ -24,20 +24,20 @@ h1
 
 #hoofdpagina #container
 {
-  width: 100%;
-  height: 623px;
-  bottom: 0px;
-  position: fixed;
+	width: 100%;
+	height: 623px;
+	bottom: 0px;
+	position: fixed;
 }
 
 #container2
 {
-  background-image: url(images/driekoningen.png);
-  background-repeat: no-repeat;
-  background-position: 440px 20px;
-  width: 1024px;
-  height: 623px;
-  position: absolute;
+	background-image: url(images/driekoningen.png);
+	background-repeat: no-repeat;
+	background-position: 440px 20px;
+	width: 1024px;
+	height: 623px;
+	position: absolute;
 
 }
 
@@ -46,11 +46,11 @@ h1
 	margin: 0 auto 0 auto;
 	position: relative;
 	top: 120px;
-  width: 700px;
-  height: 135px;
-  text-indent: -2000px;
-  background-image: url(images/welkom.png);
-  background-repeat: no-repeat;
+	width: 700px;
+	height: 135px;
+	text-indent: -2000px;
+	background-image: url(images/welkom.png);
+	background-repeat: no-repeat;
 }
 
 #hoofdpagina #container ul#hoofdmenu
@@ -58,9 +58,9 @@ h1
 	list-style-type: none;
 	width: 720px;
 	height: 340px;
-  clear: left;
+	clear: left;
 	position: relative;
-  left: 170px;
+	left: 170px;
 	top: 110px;
 }
 
@@ -104,178 +104,284 @@ h1
 #hoofdpagina div#container div#help1
 {
 	width: 226px;
-  height: 282px;
+	height: 282px;
 	position: absolute;
 	bottom: 0;
-  background-image: url(images/meisje.png);
-  background-repeat: no-repeat;
+	background-image: url(images/meisje.png);
+	background-repeat: no-repeat;
 }
 
 div#footer
 {
 	width: 1000px;
-  height: 20px;
+	height: 20px;
 	text-align: center;
-  position: absolute;
-  left: 17px;
-  bottom: 7px;
-  background-repeat: no-repeat;
+	position: absolute;
+	left: 17px;
+	bottom: 7px;
+	background-repeat: no-repeat;
 	font-size: 9px;
-  font-style: italic;
-  font-weight: bold;
+	font-style: italic;
+	font-weight: bold;
 }
 
 div#footer ul.adres
 {
 	list-style-type: none;
 	width: 840px;
-  height: 20px;
-  position: absolute;
-  bottom: 30px;
-  left: 140px;
-  background-repeat: no-repeat;
+	height: 20px;
+	position: absolute;
+	bottom: 30px;
+	left: 140px;
+	background-repeat: no-repeat;
 }
 
 #footer *
 {
-  color: black;
+	color: black;
 }
 
 #footer ul.adres li
 {
 	font-weight: bold;
 	float: left;
-  text-align: center;
+	text-align: center;
 	display: inline;
 	margin-left: -1px;
 	font-size: 9px;
 	border-style: solid;
 	border-width: 0 1px 0 1px;
-  padding: 5px;
+	padding: 5px;
 }
 
 #footer ul.adres li a
 {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 .subpagina #container
 {
-  width: 100%;
-  height: 128px;
-  background-image: url(images/verkleuring.png);
-  background-repeat: repeat-x;
+	width: 100%;
+	height: 128px;
+	background-image: url(images/verkleuring.png);
+	background-repeat: repeat-x;
 }
 
 .subpagina #container #header
 {
-  background-image: url(images/basisschool.png);
-  background-repeat: no-repeat;
-  height: 128px;
-  background-position: 80px 10px;
-  text-indent: -1000px;
+	background-image: url(images/basisschool.png);
+	background-repeat: no-repeat;
+	height: 128px;
+	background-position: 80px 10px;
+	text-indent: -1000px;
 }
 
 .subpagina #container #navigation
 {
-  width: 137px;
-  height: 462px;
-  position: absolute;
-  left: 45px;
-  top: 110px;
-  background-image: url(images/bladwijzer.png);
-  background-repeat: no-repeat;
+	width: 137px;
+	height: 462px;
+	position: absolute;
+	left: 45px;
+	top: 110px;
+	background-image: url(images/bladwijzer.png);
+	background-repeat: no-repeat;
 }
 
 .subpagina #container #navigation p
 {
-  width: 120px;
-  height: 136px;
-  position: relative;
-  left: 5px;
-  top: 30px;
-  text-indent: -1000px;
+	width: 120px;
+	height: 136px;
+	position: relative;
+	left: 5px;
+	top: 30px;
+	text-indent: -1000px;
 }
 
 .subpagina #container #navigation p.maandmenu
 {
-  background-image: url(images/maandmenum.png);
+	background-image: url(images/maandmenum.png);
+}
+
+.subpagina #container #navigation p.schoolkrant
+{
+	background-image: url(images/schoolkrantm.png);
+}
+
+.subpagina #container #navigation p.kalender
+{
+	background-image: url(images/kalenderm.png);
+}
+
+.subpagina #container #navigation p.brieven
+{
+	background-image: url(images/brievenm.png);
+}
+
+.subpagina #container #navigation p.fotogalerij
+{
+	background-image: url(images/fotogalerijm.png);
 }
 
 .subpagina #container #navigation p.links
 {
-  background-image: url(images/linksm.png);
+	background-image: url(images/linksm.png);
 }
 
 .subpagina #container #navigation ul
 {
-  list-style-type: none;
-  width: 100px;
-  height: 52px;
-  background-image: url(images/homebutton.png);
-  position: relative;
-  top: 160px;
-  left: 16px;
+	list-style-type: none;
+	width: 100px;
+	height: 52px;
+	background-image: url(images/homebutton.png);
+	position: relative;
+	top: 160px;
+	left: 16px;
 }
 
 .subpagina #container #navigation ul li a
 {
-  display: block;
-  text-indent: -350px;
-  width: 100px;
-  height: 52px;
-  overflow: hidden;
+	display: block;
+	text-indent: -350px;
+	width: 100px;
+	height: 52px;
+	overflow: hidden;
 }
 
 .subpagina #container #content
 {
-  position: absolute;
-  left: 190px;
-  height: 420px;
-  width: 800px;
-  overflow: hidden;
-  font-size: 10px;
+	position: absolute;
+	left: 190px;
+	height: 420px;
+	width: 800px;
+	overflow: hidden;
+	font-size: 10px;
 }
 
 .subpagina #maandmenu td h3
 {
-  font-size: 10px;
+	font-size: 10px;
 }
 
 .subpagina #maandmenu td p
 {
-  font-size: 9px;
+	font-size: 9px;
 }
 
 .subpagina #maandmenu thead td
 {
-  height: 15px;
+	height: 15px;
 }
 
 .subpagina #maandmenu tbody td
 {
-  min-height: 30px;
+	min-height: 30px;
 }
 
 .subpagina #maandmenu td
 {
-  width: 190px;
-  vertical-align: top;
+	width: 190px;
+	vertical-align: top;
 }
 
 .subpagina #container ul.linklist li a
 {
-  display: block;
-  height: 16px;
-  width: 30px;
-  background-image: url(images/linkbutton.png);
-  background-repeat: no-repeat;
-  float: left;
+	display: block;
+	height: 16px;
+	width: 30px;
+	background-image: url(images/linkbutton.png);
+	background-repeat: no-repeat;
+	float: left;
 }
 
 .subpagina #container ul.linklist li span
 {
-  display: block;
-  height: 16px;
-  float: left;
+	display: block;
+	height: 16px;
+	float: left;
+}
+
+.subpagina #container ul.brieflist li
+{
+	height: 36px;
+}
+
+.subpagina #container ul.brieflist li a
+{
+	display: block;
+	height: 32px;
+	width: 32px;
+	background-image: url(images/document.png);
+	background-repeat: no-repeat;
+	float: left;
+}
+
+.subpagina #container ul.brieflist li span
+{
+	height: 36px;
+	line-height: 36px;
+}
+
+.subpagina #container ul.brieflist li span.datum
+{
+	width: 210px;
+}
+
+.yearCalendar
+{
+	width: 720px;
+}
+
+.yearCalendar .calendarMonth
+{
+	width: 170px;
+	height: 135px;
+	margin: 3px;
+	float: left;
+}
+
+.yearCalendar .calendarMonth table
+{
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+
+.yearCalendar .calendarMonth thead td
+{
+	text-align: center;
+	width: 18px;
+	height: 13px;
+}
+
+.yearCalendar .calendarMonth tbody td div
+{
+	text-align: center;
+	width: 20px;
+	height: 16px;
+	line-height: 16px;
+}
+
+.yearCalendar .calendarMonth tbody td div.today
+{
+	width: 18px; /* 20px - 2*border */
+	height: 14px; /* 16px - 2*border */
+	border: blue 1px solid;
+}
+
+.yearCalendar .calendarMonth tbody td.weekend
+{
+	background-color: white;
+}
+
+fieldset
+{
+	height: 30px;
+}
+
+fieldset label
+{
+	width: 120px;
+	margin-right: 10px;
+	text-align: right;
+	float: left; /* label width wordt blijkbaar slechts in rekening gebracht in combinatie met een float */
+
 }

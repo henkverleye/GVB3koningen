@@ -1,8 +1,7 @@
 <?php
-$_GET["debug"] = 1;
 try
 {
-	//session_start();
+	session_start();
 
 	require_once("HTMLDocument.php");
 
@@ -56,7 +55,7 @@ try
 
 				$nav = $container->AddTag("div", array("id" => "navigation"));
 				{
-					$nav->AddTag("p", array("class" => "maandmenu"), "Maandmenu");
+					$nav->AddTag("p", array("class" => "kalender"), "Kalender");
 					$nav->AddTag("ul")->AddTag("li")->AddTag("a", array("href" => "index.html"), "terug naar de homepagina");
 				}
 
@@ -65,13 +64,12 @@ try
 					$cal = $content->AddTag("div", array("class" => "yearCalendar"));
 					for ($mIdx = 0; $mIdx < 12; ++$mIdx)
 					{
-						$calAttr = array("class" => "calendarMonth");
+						$calMonth = $cal->AddTag("div", array("class" => "calendarMonth"));
 						$month = $startMonth + $mIdx;
 						$realMonth = ($month - 1) % 12 + 1;
 						$realYear = $startYear + (int)(($month - 1) / 12);
 						if (($realYear == $currentYear) && ($realMonth == $currentMonth))
-							$calAttr["id"] = "currentMonth";
-						$calMonth = $cal->AddTag("div", $calAttr);
+							$calMonth->SetAttribute("id", "currentMonth");
 						{
 							$calMonth->AddTag("div", array("class" => "date"), "{$maanden[$realMonth]} $realYear");
 							$table = $calMonth->AddTag("table");
@@ -84,7 +82,7 @@ try
 								}
 								$tbody = $table->AddTag("tbody");
 								{
-									$date = strtotime("$realYear/$realMonth/01");
+									$date = strtotime("$realYear/$realMonth/01 12:00:00");
 									$dateInfo = getdate($date);
 									$day1 = $dateInfo['wday'];
 									$daysToAdd = $day1 - 1;
@@ -95,6 +93,7 @@ try
 										$tr = $tbody->AddTag("tr");
 										for ($dIdx = 0; $dIdx < 7; ++$dIdx)
 										{
+											$td = $tr->AddTag("td");
 											$dateInfo = getdate($date);
 											$mday = $dateInfo['mday'];
 											$content = "&nbsp;";
@@ -110,7 +109,11 @@ try
 												}
 												$content = $mday;
 											}
-											$tr->AddTag("td", $attr, $content);
+											$wday = $dateInfo["wday"];
+											if ((($wday >= 6) || ($wday == 0))
+												&& ($content != "&nbsp;"))
+												$td->SetAttribute("class", "weekend");
+											$td->AddTag("div", $attr, $content);
 											$date += 24*60*60;
 										}
 									}

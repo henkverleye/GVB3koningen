@@ -45,5 +45,22 @@ class HTMLElement
 
 		return $this;
 	}
+
+	public function AddHTMLFragment($fragment)
+	{
+		$toReplace = array();
+		$toReplace["/&nbsp;/"] = "&#xA0;";
+		$toReplace["/&agrave;/"] = "&#xE0;";
+		$toReplace["/&egrave;/"] = "&#xE8;";
+		$toReplace["/&eacute;/"] = "&#xE9;";
+		$toReplace["/&euml;/"] = "&#xEB;";
+		$toReplace["/&iuml;/"] = "&#xEF;";
+		$toReplace["/&ouml;/"] = "&#xF6;";
+		$toReplace["/&hellip;/"] = "&#x2026;";
+		$toReplace["/&euro;/"] = "&#x20AC;";
+		$fragment = preg_replace(array_keys($toReplace), array_values($toReplace), "<span>$fragment</span>");
+		$this->AppendChild(DOMDocument::loadXML($fragment)->documentElement);
+		return $this;
+	}
 }
 ?>

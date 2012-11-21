@@ -71,7 +71,7 @@ $doc = new HTMLDocument();
         $ul->AddTag("li", array(), "Basisschool Driekoningen");
         $ul->AddTag("li", array(), "Steenveldstraat 2");
         $ul->AddTag("li", array(), "8820 Torhout");
-        $ul->AddTag("li", array(), "Tel. (050) 22 36 59");
+        $ul->AddTag("li", array(), "Tel. (050) 22 36 95");
         $ul->AddTag("li", array(), "Fax (050) 21 61 25");
         $ul->AddTag("li")->AddTag("a", array("href" => "mailto:basisschool.driekoningen@sint-rembert.be"), "basisschool.driekoningen@sint-rembert.be");
 
