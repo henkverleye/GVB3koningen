@@ -3,7 +3,7 @@ try
 {
 	session_start();
 
-	require_once("HTMLDocument.php");
+	require_once("BaseDocument.php");
 
 	if (function_exists("date_default_timezone_set"))
 		date_default_timezone_set('Europe/Brussels');
@@ -23,120 +23,67 @@ try
 	$endYear = $startYear + 1;
 	$startMonth = 8;
 
-	$doc = new HTMLDocument();
+	$doc = CreateBaseDocument("Jaarkalender $startYear - $endYear", "kalender", "jaaroverzicht");
+	$content = $doc->FindElementById("content");
 	{
-		$head = $doc->GetHead();
+		$cal = $content->AddTag("div", array("class" => "yearCalendar"));
+		for ($mIdx = 0; $mIdx < 12; ++$mIdx)
 		{
-			$head->AddTag("meta", array("http-equiv" => "content-type", "content" => "text/html;charset=utf-8"));
-			$head->AddTag("meta", array("name" => "keywords", "content" => "GVB, gesubsidieerde, vrije, basisschool, driekoningen, torhout, steenveldstraat, rudy, vandeputte"));
-			$head->AddTag("title", array(), "Jaarkalender $startYear - $endYear");
-			$head->AddTag("link", array("rel" => "stylesheet", "type" => "text/css", "href" => "style/screen.css", "media" => "screen"));
-
-			$d = new DOMDocument();
-			$ieLink = $d->createElement("link");
-			$ieLink->setAttribute("rel", "stylesheet");
-			$ieLink->setAttribute("type", "text/css");
-			$ieLink->setAttribute("href", "../style/iescreen.css");
-			$ieLink->setAttribute("media", "screen");
-			$head->AddComment("[if IE]>" . $d->saveXML($ieLink) . "<![endif]");
-
-			$head->AddTag("script", array("type" => "text/javascript", "src" => "../scripts/tellerroot.js"));
-			$head->AddTag("script", array("type" => "text/javascript", "src" => "../scripts/teller.js"));
-
-			$head->AddTag("script", array("type" => "text/javascript"), "document.write(unescape(\"%3Cscript src='\" + ((\"https:\" == document.location.protocol) ? \"https\" : \"http\") + \"://e.mouseflow.com/projects/8e33fe49-7314-48b5-b93a-6159aebddb3b.js' type='text/javascript'%3E%3C/script%3E\"));");
-		}
-
-		$body = $doc->GetBody();
-		$body->SetAttribute("class", "subpagina");
-		{
-			$container = $body->AddTag("div", array("id" => "container"));
+			$calMonth = $cal->AddTag("div", array("class" => "calendarMonth"));
+			$month = $startMonth + $mIdx;
+			$realMonth = ($month - 1) % 12 + 1;
+			$realYear = $startYear + (int)(($month - 1) / 12);
+			if (($realYear == $currentYear) && ($realMonth == $currentMonth))
+				$calMonth->SetAttribute("id", "currentMonth");
 			{
-				$container->AddTag("div", array("id" => "header"));
-
-				$nav = $container->AddTag("div", array("id" => "navigation"));
+				$calMonth->AddTag("div", array("class" => "date"), "{$maanden[$realMonth]} $realYear");
+				$table = $calMonth->AddTag("table");
 				{
-					$nav->AddTag("p", array("class" => "kalender"), "Kalender");
-					$nav->AddTag("ul")->AddTag("li")->AddTag("a", array("href" => "index.html"), "terug naar de homepagina");
-				}
-
-				$content = $container->AddTag("div", array("id" => "content"));
+					$thead = $table->AddTag("thead");
+			{
+				$tr = $thead->AddTag("tr");
+				for ($wIdx = 1; $wIdx <= 7; ++$wIdx)
+					$tr->AddTag("td", array(), $daysShort[$wIdx]);
+			}
+					$tbody = $table->AddTag("tbody");
 				{
-					$cal = $content->AddTag("div", array("class" => "yearCalendar"));
-					for ($mIdx = 0; $mIdx < 12; ++$mIdx)
+					$date = strtotime("$realYear/$realMonth/01 12:00:00");
+					$dateInfo = getdate($date);
+					$day1 = $dateInfo['wday'];
+					$daysToAdd = $day1 - 1;
+					if ($daysToAdd <= 0) $daysToAdd += 7;
+					$date -= $daysToAdd * 24*60*60;
+					for ($wIdx = 0; $wIdx < 6; ++$wIdx)
 					{
-						$calMonth = $cal->AddTag("div", array("class" => "calendarMonth"));
-						$month = $startMonth + $mIdx;
-						$realMonth = ($month - 1) % 12 + 1;
-						$realYear = $startYear + (int)(($month - 1) / 12);
-						if (($realYear == $currentYear) && ($realMonth == $currentMonth))
-							$calMonth->SetAttribute("id", "currentMonth");
+						$tr = $tbody->AddTag("tr");
+						for ($dIdx = 0; $dIdx < 7; ++$dIdx)
 						{
-							$calMonth->AddTag("div", array("class" => "date"), "{$maanden[$realMonth]} $realYear");
-							$table = $calMonth->AddTag("table");
+							$td = $tr->AddTag("td");
+							$dateInfo = getdate($date);
+							$mday = $dateInfo['mday'];
+							$content = "&nbsp;";
+							$attr = array();
+							if (($dateInfo['mon'] == $realMonth) &&
+								($dateInfo['year'] == $realYear))
 							{
-								$thead = $table->AddTag("thead");
+								if (($dateInfo['mon'] == $currentMonth) &&
+									($dateInfo['year'] == $realYear) &&
+									($dateInfo['mday'] == $currentDay))
 								{
-									$tr = $thead->AddTag("tr");
-									for ($wIdx = 1; $wIdx <= 7; ++$wIdx)
-										$tr->AddTag("td", array(), $daysShort[$wIdx]);
+									$attr["class"] = "today";
 								}
-								$tbody = $table->AddTag("tbody");
-								{
-									$date = strtotime("$realYear/$realMonth/01 12:00:00");
-									$dateInfo = getdate($date);
-									$day1 = $dateInfo['wday'];
-									$daysToAdd = $day1 - 1;
-									if ($daysToAdd <= 0) $daysToAdd += 7;
-									$date -= $daysToAdd * 24*60*60;
-									for ($wIdx = 0; $wIdx < 6; ++$wIdx)
-									{
-										$tr = $tbody->AddTag("tr");
-										for ($dIdx = 0; $dIdx < 7; ++$dIdx)
-										{
-											$td = $tr->AddTag("td");
-											$dateInfo = getdate($date);
-											$mday = $dateInfo['mday'];
-											$content = "&nbsp;";
-											$attr = array();
-											if (($dateInfo['mon'] == $realMonth) &&
-												($dateInfo['year'] == $realYear))
-											{
-												if (($dateInfo['mon'] == $currentMonth) &&
-													($dateInfo['year'] == $realYear) &&
-													($dateInfo['mday'] == $currentDay))
-												{
-													$attr["class"] = "today";
-												}
-												$content = $mday;
-											}
-											$wday = $dateInfo["wday"];
-											if ((($wday >= 6) || ($wday == 0))
-												&& ($content != "&nbsp;"))
-												$td->SetAttribute("class", "weekend");
-											$td->AddTag("div", $attr, $content);
-											$date += 24*60*60;
-										}
-									}
-								}
+								$content = $mday;
 							}
+							$wday = $dateInfo["wday"];
+							if ((($wday >= 6) || ($wday == 0))
+								&& ($content != "&nbsp;"))
+								$td->SetAttribute("class", "weekend");
+							$td->AddTag("div", $attr, $content);
+							$date += 24*60*60;
 						}
 					}
 				}
-
-				$footer = $container->AddTag("div", array("id" => "footer"));
-				{
-					$ul = $footer->AddTag("ul", array("class" => "adres"));
-					$ul->AddTag("li", array(), "Basisschool Driekoningen");
-					$ul->AddTag("li", array(), "Steenveldstraat 2");
-					$ul->AddTag("li", array(), "8820 Torhout");
-					$ul->AddTag("li", array(), "Tel. (050) 22 36 95");
-					$ul->AddTag("li", array(), "Fax (050) 21 61 25");
-					$ul->AddTag("li")->AddTag("a", array("href" => "mailto:basisschool.driekoningen@sint-rembert.be"), "basisschool.driekoningen@sint-rembert.be");
-
-					$footer->AddTag("p", array(), "Scholengroep Sint-Rembert");
 				}
-
-				$container->AddTag("script", array("type" => "text/javascript"), "ToonTeller(\"schoolmenu\", 3485);");
 			}
 		}
 	}

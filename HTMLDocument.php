@@ -30,7 +30,30 @@ class HTMLDocument
 	public function GetBody()
 	{
 		return new HTMLElement($this->_document->documentElement->getElementsByTagName("body")->item(0));
-	}
+    }
+
+    public function FindElementById($id)
+    {
+        $xpath = new DOMXPath($this->_document);
+        $result = $xpath->Evaluate("//*[@id='$id']");
+        if ($result->length == 1)
+            return new HTMLElement($result->item(0));
+        throw "no unique result: " . $result->length . "tags found";
+    }
+
+    public function FindElementByTag($tagName)
+    {
+        $xpath = new DOMXPath($this->_document);
+        $result = $xpath->Evaluate("//$tagName");
+        return new HTMLElement($result->item(0));
+    }
+
+    public function FindElementByXPath($path)
+    {
+        $xpath = new DOMXPath($this->_document);
+        $result = $xpath->Evaluate($path);
+        return $result->item(0);
+    }
 
 	public function Serialize($pretty)
 	{

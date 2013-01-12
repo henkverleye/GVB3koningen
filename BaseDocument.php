@@ -52,16 +52,19 @@ function CreateBaseDocument($titel, $style, $tellerKey)
 					$footer->AddTag("p", array(), "Scholengroep Sint-Rembert");
 				}
 
-				$checkPass = 0;
-				for ($idx = 0; $idx < strlen($tellerKey); ++$idx)
+				if (strlen($tellerKey) > 0)
 				{
-					$num = ord(substr($tellerKey, $idx, 1));
-					$checkPass += $num * $num;
+					$checkPass = 0;
+					for ($idx = 0; $idx < strlen($tellerKey); ++$idx)
+					{
+						$num = ord(substr($tellerKey, $idx, 1));
+						$checkPass += $num * $num;
+					}
+					while ($checkPass < 4242)
+						$checkPass *= $checkPass;
+					$checkPass %= 4242;
+					$container->AddTag("script", array("type" => "text/javascript"), "ToonTeller(\"$tellerKey\", $checkPass);");
 				}
-				while ($checkPass < 4242)
-					$checkPass *= $checkPass;
-				$checkPass %= 4242;
-				$container->AddTag("script", array("type" => "text/javascript"), "ToonTeller(\"$tellerKey\", $checkPass);");
 			}
 		}
 	}

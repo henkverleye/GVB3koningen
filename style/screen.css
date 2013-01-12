@@ -300,6 +300,11 @@ div#footer ul.adres
 	float: left;
 }
 
+.subpagina #container ul.brieflist
+{
+	list-style-type: none;
+}
+
 .subpagina #container ul.brieflist li
 {
 	height: 36px;

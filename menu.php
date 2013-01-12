@@ -3,7 +3,7 @@ try
 {
 	session_start();
 
-	require_once("HTMLDocument.php");
+	require_once("BaseDocument.php");
 
 	$maanden = array("", "januari", "februari", "maart", "april", "mei", "juni",
 		"juli", "augustus", "september", "oktober", "november", "december");
@@ -82,112 +82,59 @@ try
 		$menus[$datum] = $menu;
 	}
 
-	$doc = new HTMLDocument();
+	$doc = CreateBaseDocument("Maandmenu: {$maanden[$thismaand]} $thisjaar", "maandmenu", "schoolmenu");
+	$content = $doc->FindElementById("content");
 	{
-		$head = $doc->GetHead();
+		$content->AddTag("h1", array(), "{$maanden[$thismaand]} $thisjaar");
+
+		$table = $content->AddTag("table", array("id" => "maandmenu", "summary" => "maandmenu"));
 		{
-			$head->AddTag("meta", array("http-equiv" => "content-type", "content" => "text/html;charset=utf-8"));
-			$head->AddTag("meta", array("name" => "keywords", "content" => "GVB, gesubsidieerde, vrije, basisschool, driekoningen, torhout, steenveldstraat, rudy, vandeputte"));
-			$head->AddTag("title", array(), "Maandmenu: {$maanden[$thismaand]} $thisjaar");
-			$head->AddTag("link", array("rel" => "stylesheet", "type" => "text/css", "href" => "style/screen.css", "media" => "screen"));
+			$tr = $table->AddTag("thead")->AddTag("tr");
+			$tr->AddTag("td")->AddTag("h3", array(), "maandag");
+			$tr->AddTag("td")->AddTag("h3", array(), "dinsdag");
+			$tr->AddTag("td")->AddTag("h3", array(), "donderdag");
+			$tr->AddTag("td")->AddTag("h3", array(), "vrijdag");
 
-			$d = new DOMDocument();
-			$ieLink = $d->createElement("link");
-			$ieLink->setAttribute("rel", "stylesheet");
-			$ieLink->setAttribute("type", "text/css");
-			$ieLink->setAttribute("href", "../style/iescreen.css");
-			$ieLink->setAttribute("media", "screen");
-			$head->AddComment("[if IE]>" . $d->saveXML($ieLink) . "<![endif]");
-
-			$head->AddTag("script", array("type" => "text/javascript", "src" => "../scripts/tellerroot.js"));
-			$head->AddTag("script", array("type" => "text/javascript", "src" => "../scripts/teller.js"));
-
-			$head->AddTag("script", array("type" => "text/javascript"), "document.write(unescape(\"%3Cscript src='\" + ((\"https:\" == document.location.protocol) ? \"https\" : \"http\") + \"://e.mouseflow.com/projects/8e33fe49-7314-48b5-b93a-6159aebddb3b.js' type='text/javascript'%3E%3C/script%3E\"));");
-		}
-
-		$body = $doc->GetBody();
-		$body->SetAttribute("class", "subpagina");
-		{
-			$container = $body->AddTag("div", array("id" => "container"));
+			$tbody = $table->AddTag("tbody");
 			{
-				$container->AddTag("div", array("id" => "header"));
-
-				$nav = $container->AddTag("div", array("id" => "navigation"));
+				$weektimestamp = mktime(12,0,0,$thismaand,1,$thisjaar);
+				$weekdate = getdate($weektimestamp);
+				while (($weekdate["wday"] != 0) && ($weekdate["wday"] != 6) && ($weekdate["wday"] != 7))
 				{
-					$nav->AddTag("p", array("class" => "maandmenu"), "Maandmenu");
-					$nav->AddTag("ul")->AddTag("li")->AddTag("a", array("href" => "index.html"), "terug naar de homepagina");
+					$weektimestamp -= 24 * 60 * 60;
+					$weekdate = getdate($weektimestamp);
+				}
+				while ($weekdate["wday"] != 1)
+				{
+					$weektimestamp += 24 * 60 * 60;
+					$weekdate = getdate($weektimestamp);
 				}
 
-				$content = $container->AddTag("div", array("id" => "content"));
+				while (($weekdate["mon"] == $thismaand) || ($weekdate["mon"] == $prevmaand))
 				{
-					$content->AddTag("h1", array(), "{$maanden[$thismaand]} $thisjaar");
+					$tr = $tbody->AddTag("tr");
 
-					$table = $content->AddTag("table", array("id" => "maandmenu", "summary" => "maandmenu"));
+					$dagtimestamp = $weektimestamp;
+					$dagdate = $weekdate;
+					foreach (array(1, 2, 4, 5) as $wday)
 					{
-						$tr = $table->AddTag("thead")->AddTag("tr");
-						$tr->AddTag("td")->AddTag("h3", array(), "maandag");
-						$tr->AddTag("td")->AddTag("h3", array(), "dinsdag");
-						$tr->AddTag("td")->AddTag("h3", array(), "donderdag");
-						$tr->AddTag("td")->AddTag("h3", array(), "vrijdag");
-
-						$tbody = $table->AddTag("tbody");
+						while ($dagdate["wday"] != $wday)
 						{
-							$weektimestamp = mktime(12,0,0,$thismaand,1,$thisjaar);
-							$weekdate = getdate($weektimestamp);
-							while (($weekdate["wday"] != 0) && ($weekdate["wday"] != 6) && ($weekdate["wday"] != 7))
-							{
-								$weektimestamp -= 24 * 60 * 60;
-								$weekdate = getdate($weektimestamp);
-							}
-							while ($weekdate["wday"] != 1)
-							{
-								$weektimestamp += 24 * 60 * 60;
-								$weekdate = getdate($weektimestamp);
-							}
+							$dagtimestamp += 24 * 60 * 60;
+							$dagdate = getdate($dagtimestamp);
+						}
+						$datum = sprintf("%04d-%02d-%02d", $dagdate["year"], $dagdate["mon"], $dagdate["mday"]);
+						$menu = isset($menus[$datum]) ? $menus[$datum] : "";
 
-							while (($weekdate["mon"] == $thismaand) || ($weekdate["mon"] == $prevmaand))
-							{
-								$tr = $tbody->AddTag("tr");
-
-								$dagtimestamp = $weektimestamp;
-								$dagdate = $weekdate;
-								foreach (array(1, 2, 4, 5) as $wday)
-								{
-									while ($dagdate["wday"] != $wday)
-									{
-										$dagtimestamp += 24 * 60 * 60;
-										$dagdate = getdate($dagtimestamp);
-									}
-									$datum = sprintf("%04d-%02d-%02d", $dagdate["year"], $dagdate["mon"], $dagdate["mday"]);
-									$menu = isset($menus[$datum]) ? $menus[$datum] : "";
-
-									$td = $tr->AddTag("td");
-									{
-										$td->AddTag("h3", array(), $dagdate["mday"]);
-										$td->AddHTMLFragment($menu);
-									}
-								}
-								$weektimestamp += 7 * 24 * 60 * 60;
-								$weekdate = getdate($weektimestamp);
-							}
+						$td = $tr->AddTag("td");
+						{
+							$td->AddTag("h3", array(), $dagdate["mday"]);
+							$td->AddHTMLFragment($menu);
 						}
 					}
+					$weektimestamp += 7 * 24 * 60 * 60;
+					$weekdate = getdate($weektimestamp);
 				}
-
-				$footer = $container->AddTag("div", array("id" => "footer"));
-				{
-					$ul = $footer->AddTag("ul", array("class" => "adres"));
-					$ul->AddTag("li", array(), "Basisschool Driekoningen");
-					$ul->AddTag("li", array(), "Steenveldstraat 2");
-					$ul->AddTag("li", array(), "8820 Torhout");
-					$ul->AddTag("li", array(), "Tel. (050) 22 36 95");
-					$ul->AddTag("li", array(), "Fax (050) 21 61 25");
-					$ul->AddTag("li")->AddTag("a", array("href" => "mailto:basisschool.driekoningen@sint-rembert.be"), "basisschool.driekoningen@sint-rembert.be");
-
-					$footer->AddTag("p", array(), "Scholengroep Sint-Rembert");
-				}
-
-				$container->AddTag("script", array("type" => "text/javascript"), "ToonTeller(\"schoolmenu\", 3485);");
 			}
 		}
 	}
