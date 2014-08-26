@@ -197,14 +197,9 @@ div#footer ul.adres
 	text-indent: -1000px;
 }
 
-.subpagina #container #navigation p.maandmenu
+.subpagina #container #navigation p.wie
 {
-	background-image: url(images/maandmenum.png);
-}
-
-.subpagina #container #navigation p.schoolkrant
-{
-	background-image: url(images/schoolkrantm.png);
+	background-image: url(images/wiem.png);
 }
 
 .subpagina #container #navigation p.kalender
@@ -212,14 +207,44 @@ div#footer ul.adres
 	background-image: url(images/kalenderm.png);
 }
 
+.subpagina #container #navigation p.maandmenu
+{
+	background-image: url(images/maandmenum.png);
+}
+
+.subpagina #container #navigation p.oudercomite
+{
+	background-image: url(images/oudercomitem.png);
+}
+
 .subpagina #container #navigation p.brieven
 {
 	background-image: url(images/brievenm.png);
 }
 
+.subpagina #container #navigation p.schoolbrochure
+{
+	background-image: url(images/schoolbrochurem.png);
+}
+
+.subpagina #container #navigation p.praktisch
+{
+	background-image: url(images/praktischm.png);
+}
+
+.subpagina #container #navigation p.schoolkrant
+{
+	background-image: url(images/schoolkrantm.png);
+}
+
 .subpagina #container #navigation p.fotogalerij
 {
 	background-image: url(images/fotogalerijm.png);
+}
+
+.subpagina #container #navigation p.naschools
+{
+	background-image: url(images/naschoolsm.png);
 }
 
 .subpagina #container #navigation p.links
